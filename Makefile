@@ -1,10 +1,10 @@
 #Makefile for kerncards
-HEADERS = kwrite.h
+HEADERS = kwrite.h string.h time.h
 
 all: kernel.i386
 
-kernel.i386: kc.o kasm.o kwrite.o $(HEADERS)
-	ld -m elf_i386 -T link.ld -o kernel.i386 kasm.o kc.o kwrite.o
+kernel.i386: kc.o kasm.o kwrite.o time.o string.o $(HEADERS)
+	ld -m elf_i386 -T link.ld -o kernel.i386 kasm.o kc.o kwrite.o string.o time.o
 
 kasm.o: kernel.asm $(HEADERS)
 	nasm -f elf32 kernel.asm -o kasm.o
@@ -14,6 +14,13 @@ kc.o: kernel.c $(HEADERS)
 
 kwrite.o: kwrite.c $(HEADERS)
 	gcc -m32 -c kwrite.c -o kwrite.o
+
+string.o: string.c $(HEADERS)
+	gcc -m32 -c string.c -o string.o
+
+time.o: time.c $(HEADERS)
+	gcc -m32 -c time.c -o time.o
+
 
 clean:
 	rm -f kernel kc.o kasm.o

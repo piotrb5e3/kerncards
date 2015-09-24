@@ -4,6 +4,8 @@
 */
 #include "keyboard_map.h"
 #include "kwrite.h"
+#include "string.h"
+#include "time.h"
 
 /* there are 25 lines each of 80 columns; each element takes 2 bytes */
 #define LINES 25
@@ -124,13 +126,18 @@ void keyboard_handler_main(void)
 //============= Main function
 void kmain(void)
 {
-	const char *str = "my first kernel with keyboard support";
+        char sttr[40];
 	clear();
-	writestr(str);
-        writestr("\n\n");
-
 	idt_init();
-	kb_init();
+	//kb_init();
+        itostr(time_grab(), 40, sttr);
+        writexy("TIMESTAMP: ", 0,4);
+        writexy(sttr, 15, 4);
+        
+	while(1){
+            itostr(time_grab(), 40, sttr);
+            writexy("TIMESTAMP: ", 0,4);
+            writexy(sttr, 15, 4);
+        }
 
-	while(1);
 }
