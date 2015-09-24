@@ -13,7 +13,7 @@ kc.o: kernel.c $(HEADERS)
 	gcc -m32 -c kernel.c -o kc.o
 
 kwrite.o: kwrite.c $(HEADERS)
-	gcc -m32 -c kwrite.c
+	gcc -m32 -c kwrite.c -o kwrite.o
 
 clean:
 	rm -f kernel kc.o kasm.o
