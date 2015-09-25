@@ -1,6 +1,6 @@
 #Makefile for kerncards
-HEADERS = kwrite.h string.h time.h
-OBJS = kasm.o kernel.o kwrite.o string.o time.o random.o
+HEADERS = kernel.h kwrite.h idt.h keyboard.h time.h random.h string.h card.h game.h
+OBJS = kasm.o main.o kwrite.o idt.o keyboard.o time.o random.o string.o
 NASM = nasm
 NASMFLAGS = -f elf32
 CC = gcc

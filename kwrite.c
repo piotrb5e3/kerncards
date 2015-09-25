@@ -80,19 +80,32 @@ short writexy(const char *str, short x, short y)
 {
     unsigned int j = 0;
     unsigned int tmp = -1;
-    gotoxy(x, y);
+    int t_x, t_y;
+    if(x<0||x>=MAX_X||y<0||y>=MAX_Y)
+        return -1;
+    t_x = x;
+    t_y = y;
     while (str[j] != '\0'){
         //Check if we should go to a new line
         if(str[j] == NEWLINE_C){
-            xpos = x;
-            ypos++;
+            t_x = x;
+            t_y++;
             j++;
         }
         else{
-            tmp = cal_pos();
+            tmp = 2 * (t_y * MAX_X + t_x);
             vidptr[tmp] = str[j];
             vidptr[tmp+1] = attr;
-            adv_pos();
+            if(t_x < MAX_X - 1)
+                t_x++;
+            else
+                if(t_y < MAX_Y - 1){
+                    t_x = 0;
+                    t_y++;
+                }else{
+                    t_x = 0;
+                    t_y = 0;
+                }
             j++;
         }
     }
@@ -101,18 +114,22 @@ short writexy(const char *str, short x, short y)
 
 short setcol(enum t_color col)
 {
+    if(col<BLACK ||col>WHITE)
+        return -1;
     fg = col;
     //Update attr:
     attr = (bg*0x10)+fg;
-
+    return 0;
 }
 
 short setbg(enum t_color col)
 {
+    if(col<BLACK ||col>WHITE)
+        return -1;
     bg = col;
     //Update attr:
     attr = (bg*0x10)+fg;
-
+    return 0;
 }
 
 void clear(void)

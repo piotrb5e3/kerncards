@@ -48,6 +48,8 @@ short writestr(const char *str);
 /*
  * Write string at given position - newlines go to (start_x, next_y)
  *
+ * DOES NOT CHANGE POINTER!
+ *
  * returns 0 at success, <0 at failure
  */
 short writexy(const char *str, short x, short y);
