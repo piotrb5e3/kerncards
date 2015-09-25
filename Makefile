@@ -1,26 +1,26 @@
 #Makefile for kerncards
 HEADERS = kwrite.h string.h time.h
+OBJS = kasm.o kernel.o kwrite.o string.o time.o random.o
+NASM = nasm
+NASMFLAGS = -f elf32
+CC = gcc
+CCFLAGS = -O3 -m32 -Wall -c
+LD = ld
+LDFLAGS = -m elf_i386 -T
+LDSCRIPT = link.ld
+EXE = kernel.i386
 
-all: kernel.i386
+all: $(EXE)
 
-kernel.i386: kc.o kasm.o kwrite.o time.o string.o $(HEADERS)
-	ld -m elf_i386 -T link.ld -o kernel.i386 kasm.o kc.o kwrite.o string.o time.o
+$(EXE): $(OBJS) $(HEADERS)
+	$(LD) $(LDFLAGS) $(LDSCRIPT) -o $@ $(OBJS)
 
-kasm.o: kernel.asm $(HEADERS)
-	nasm -f elf32 kernel.asm -o kasm.o
+kasm.o: kernel.asm
+	$(NASM) $(NASMFLAGS) $< -o $@
 
-kc.o: kernel.c $(HEADERS)
-	gcc -m32 -c kernel.c -o kc.o
-
-kwrite.o: kwrite.c $(HEADERS)
-	gcc -m32 -c kwrite.c -o kwrite.o
-
-string.o: string.c $(HEADERS)
-	gcc -m32 -c string.c -o string.o
-
-time.o: time.c $(HEADERS)
-	gcc -m32 -c time.c -o time.o
-
+#Generic C rule
+%.o: %.c $(HEADERS)
+	$(CC) $(CCFLAGS) $< -o $@
 
 clean:
-	rm -f kernel kc.o kasm.o
+	rm -f $(OBJS) $(EXE)
