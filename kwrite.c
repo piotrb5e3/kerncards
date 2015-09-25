@@ -100,11 +100,11 @@ short writexy(const char *str, short x, short y)
                 t_x++;
             else
                 if(t_y < MAX_Y - 1){
-                    t_x = 0;
+                    t_x = x;
                     t_y++;
                 }else{
-                    t_x = 0;
-                    t_y = 0;
+                    t_x = x;
+                    t_y = y;
                 }
             j++;
         }
