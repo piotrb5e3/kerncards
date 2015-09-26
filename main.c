@@ -9,6 +9,7 @@
 #include "random.h"
 #include "kernel.h"
 #include "idt.h"
+#include "card.h"
 
 //Simple callback function for keyboard events:
 int simple_callback(char c)
@@ -27,6 +28,7 @@ void kmain(void)
         char sttr[40];
         unsigned long num =0;
         unsigned long i =0;
+        struct t_card card1, card2, card3, card4, card5;
 	clear();
 	idt_init();
         kbd_set_callback(simple_callback);
@@ -51,7 +53,17 @@ void kmain(void)
         writexy("Average:(from 1M rolls)", 30, 12);
         itostr(num, 40, sttr);
         writexy(sttr, 30, 13);
-
+        //Lets print some cards!
+        c_init(&card1, SPADE, QUEEN);
+        c_init(&card2, HEART, ACE);
+        c_init(&card3, CLUB, KING);
+        c_init(&card4, DIAMOND, SIX);
+        c_init(&card5, DIAMOND, TEN);
+        c_drawxy(card1, 15, 14);
+        c_drawxy(card2, 25, 14);
+        c_drawxy(card3, 35, 14);
+        c_drawxy(card4, 45, 14);
+        c_drawxy(card5, 55, 14);
 
 
 	while(1){
