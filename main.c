@@ -10,6 +10,7 @@
 #include "kernel.h"
 #include "idt.h"
 #include "card.h"
+#include "prompt.h"
 
 //Simple callback function for keyboard events:
 int simple_callback(char c)
@@ -64,12 +65,12 @@ void kmain(void)
         c_drawxy(card3, 35, 14);
         c_drawxy(card4, 45, 14);
         c_drawxy(card5, 55, 14);
-
+        p_ask(0, 20, 5, 0, 0);
 
 	while(1){
-            itostr(time_grab(), 40, sttr);
-            writexy("TIMESTAMP: ", 0,4);
-            writexy(sttr, 15, 4);
+         //   itostr(time_grab(), 40, sttr);
+         //   writexy("TIMESTAMP: ", 0,4);
+         //   writexy(sttr, 15, 4);
         }
 
 }

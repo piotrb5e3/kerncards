@@ -7,7 +7,11 @@
 #ifndef __KWRITE_H__
 #define __KWRITE_H__
 
-//Global variables
+//========== Constants
+extern const short MAX_X;
+extern const short MAX_Y;
+
+//========== Types
 
 //Color enum:
 enum t_color{
