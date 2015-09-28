@@ -3,7 +3,7 @@
  */
 
 #include "string.h"
-
+//========== Public functions
 int itostr(unsigned long number, unsigned int strlen, char *str)
 {
     unsigned int ptr = 0;
@@ -61,3 +61,67 @@ void strcpy(const char *from, char *to, unsigned int length)
     }
     to[i] = '\0';
 }
+
+unsigned int strfold(char *str, const unsigned int maxlength, unsigned int width)
+{
+    unsigned int breaks = 0;
+    unsigned int i=0, j=0, ptr=0;
+    unsigned int last_space = -1;
+    unsigned int last_break = -1;
+    char tmp[maxlength];
+
+
+    while(str[i] !='\0'){
+        if(str[i] == ' ' || str[i] == '\n'){
+            last_space = i;
+        }
+        if(str[i] == '\n'){
+            ptr = last_break + 1;
+            while(ptr < i && j < maxlength -1){
+                tmp[j++] = str[ptr++];
+            }
+            if(j < maxlength -1){
+                tmp[j++] = '\n';
+                breaks++;
+            }
+            last_break = i;
+        }
+        if(i - last_break > width){
+            //We have to linebreak
+            if(last_space > last_break){
+                //We break at the last space
+                ptr = last_break + 1;
+                while(ptr<last_space && j<maxlength - 1){
+                    tmp[j] = str[ptr];
+                    j++;
+                    ptr++;
+                }
+                if(j<maxlength - 1){
+                    tmp[j++]='\n';
+                    breaks++;
+                }
+                last_break = last_space;
+            }else{
+                //We have to break mid-word
+                ptr = last_break + 1;
+                while(ptr < i && j<maxlength - 1){
+                    tmp[j++] = str[ptr++];
+                }
+                if(j<maxlength - 1){
+                    tmp[j++] = '\n';
+                    breaks++;
+                }
+                last_break = i - 1;
+                last_space = last_break;
+            }
+        }
+        i++;
+    }
+    ptr = last_break + 1;
+    while(ptr <= i && j<maxlength - 1){
+        tmp[j++] = str[ptr++];
+    }
+    strcpy(tmp, str, maxlength - 1);
+    return breaks;
+}
+

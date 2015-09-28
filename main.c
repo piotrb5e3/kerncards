@@ -27,6 +27,8 @@ int simple_callback(char c)
 void kmain(void)
 {
         char sttr[40];
+        char str1[100] = "ANANANANANNANANANANNANNA";
+        char str2[100] = "am\nam\nam\nam am am\n am";
         unsigned long num =0;
         unsigned long i =0;
         struct t_card card1, card2, card3, card4, card5;
@@ -65,7 +67,16 @@ void kmain(void)
         c_drawxy(card3, 35, 14);
         c_drawxy(card4, 45, 14);
         c_drawxy(card5, 55, 14);
+
+        //Lets fold some strings
+        strfold(str1, 100, 5);
+        writexy(str1, 50, 2);
+        strfold(str2, 100, 3);
+        writexy(str2, 50, 10);
+
+        //Lets print a prompt
         p_ask(0, 20, 5, 0, 0);
+
 
 	while(1){
          //   itostr(time_grab(), 40, sttr);
