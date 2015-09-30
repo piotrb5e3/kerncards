@@ -4,14 +4,12 @@
 
 #ifndef __CARD_H__
 #define __CARD_H__
-//Max number of cards in a deck, defined in card.c
-#define MAX_CARDS 52
 
 //Enum for representing wether card is showing front, or back
 enum t_side {BACK=0, FRONT=1};
 
 //Enum for representing suit of a card
-enum t_suit {SPADE=0, DIAMOND, CLUB, HEART};
+enum t_suit {SPADE=0, DIAMOND, CLUB, HEART, S_END};
 
 //Enum for representing rank of a card
 enum t_rank {
@@ -27,7 +25,8 @@ enum t_rank {
     TEN,
     JACK,
     QUEEN,
-    KING
+    KING,
+    R_END
 };
 
 //Struct representing a card
@@ -35,12 +34,6 @@ struct t_card{
     enum t_suit suit;
     enum t_rank rank;
     enum t_side side; //0 if card is face-down
-};
-
-//Struct for representing decks of cards
-struct t_deck{ //Decks cannot exceed MAX_CARDS
-    int numcards;
-    struct t_card cards[MAX_CARDS];
 };
 
 //========Card functions
@@ -53,12 +46,14 @@ void c_init(struct t_card *card, enum t_suit s, enum t_rank r);
 //It draws face-down cards correctly
 void c_drawxy(struct t_card card, unsigned short x, unsigned short y);
 
-//Sets a deck as a basic, ordered by suit, by rank 52 card deck
-//TODO move to deck module, implement
-//void deck_setup(struct t_deck &deck);
+//Flip a card
+void c_flip(struct t_card *card);
 
-//Randomly shuffles given deck
-//TODO move to deck module, implement
-//void deck_shuffle(struct t_deck &deck);
+//Hide card
+void c_hide(struct t_card *card);
+
+//Show card
+void c_show(struct t_card *card);
+
 
 #endif /* __CARD_H__ */

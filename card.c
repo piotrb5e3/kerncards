@@ -143,3 +143,20 @@ void c_drawxy(struct t_card card, unsigned short x, unsigned short y)
     }
     writexy(c_img, x, y);
 }
+
+void c_flip(struct t_card *card)
+{
+    card->side = (card->side == FRONT)? BACK:FRONT;
+}
+
+void c_hide(struct t_card *card)
+{
+    card->side = BACK;
+}
+
+void c_show(struct t_card *card)
+{
+    card->side = FRONT;
+}
+
+

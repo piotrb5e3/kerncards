@@ -11,6 +11,7 @@
 #include "idt.h"
 #include "card.h"
 #include "prompt.h"
+#include "deck.h"
 
 //Simple callback function for keyboard events:
 int simple_callback(char c)
@@ -32,6 +33,7 @@ void kmain(void)
         unsigned long num =0;
         unsigned long i =0;
         struct t_card card1, card2, card3, card4, card5;
+        struct t_deck deck1, deck2, deck3;
 	clear();
 	idt_init();
         kbd_set_callback(simple_callback);
@@ -56,7 +58,12 @@ void kmain(void)
         writexy("Average:(from 1M rolls)", 30, 12);
         itostr(num, 40, sttr);
         writexy(sttr, 30, 13);
+
+        //Wait for keypress:
+        asm("hlt;");
+
         //Lets print some cards!
+
         c_init(&card1, SPADE, QUEEN);
         c_init(&card2, HEART, ACE);
         c_init(&card3, CLUB, KING);
@@ -73,6 +80,26 @@ void kmain(void)
         writexy(str1, 50, 2);
         strfold(str2, 100, 3);
         writexy(str2, 50, 10);
+
+        //Lets do some decking
+        d_setup(&deck1);
+        d_shuffle(&deck1);
+        d_init(&deck2);
+        d_init(&deck3);
+        d_print(&deck1, 10, 10);
+        d_put_top(&deck2, d_draw(&deck1));
+        d_hide(&deck1);
+        d_print(&deck1, 20, 10);
+        d_put_top(&deck2, card1);
+        d_put_top(&deck2, card2);
+        d_put_top(&deck2, card3);
+        d_put_top(&deck2, card4);
+        d_put_top(&deck2, card5);
+        for(int i = 0; i<15 ;i++)
+            d_put_top(&deck3, d_draw(&deck1));
+        d_show(&deck3);
+        d_print_v(&deck2, 0, 0);
+        d_print_h(&deck3, 10, 0);
 
         //Lets print a prompt
         p_ask(0, 20, 5, 0, 0);
